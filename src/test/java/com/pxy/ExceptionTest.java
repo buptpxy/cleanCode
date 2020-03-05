@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.fail;
 
-public class TestException {
+public class ExceptionTest {
     @Test
     public void testExceptionMessage() {
         try {
