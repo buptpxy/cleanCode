@@ -1,5 +1,7 @@
 package com.pxy.designpattern;
 
+import com.pxy.designpattern.decorator.ShowColor;
+import com.pxy.designpattern.decorator.ShowColorFactory;
 import com.pxy.designpattern.simplefactory.Operation;
 import com.pxy.designpattern.simplefactory.OperationFactory;
 import com.pxy.designpattern.strategy.OperationContext;
@@ -12,7 +14,7 @@ public class Computer {
      * 低可复用性，代码只针对一种特殊场景，不能用于其他类似场景
      * 应使用面向对象的思维，重新实现一个计算器，使得修改其中一个运算逻辑无需知道其他运算逻辑的代码
      */
-    public static int compute(int num1, String operator, int num2) throws Exception {
+    public int compute(int num1, String operator, int num2) throws Exception {
         switch (operator) {
             case "+":
                 return num1+num2;
@@ -43,8 +45,25 @@ public class Computer {
     /**
      * 客户端无需知道操作类对象和操作运算的实现，操作运算的实现与操作的调用完全解耦
      */
-    public static int computeByStrategy(int num1, String operator, int num2) throws Exception {
+    public int computeByStrategy(int num1, String operator, int num2) throws Exception {
         return OperationContext.execute(num1,operator,num2);
     }
+
+    /**
+     * 给计算器计算结果的时候增加打印颜色的功能，使用装饰模式。这样无论要打印多少种颜色和按何种顺序打印，都可由参数colors指定，也不影响原来的计算功能
+     */
+    public static int computeByDecorator(int num1, String operator, int num2, String[] colors) throws Exception {
+        Computer computer = new Computer();
+        ShowColor showColor = ShowColorFactory.newShowColorInstance(colors[0]);
+        showColor.setComputer(computer);
+        for (int i = 1; i < colors.length; i++) {
+            ShowColor showColorI = ShowColorFactory.newShowColorInstance(colors[i]);
+            showColorI.setComputer(showColor);
+            showColor = showColorI;
+        }
+        return showColor.computeByStrategy(num1,operator,num2);
+    }
+
+
 
 }
