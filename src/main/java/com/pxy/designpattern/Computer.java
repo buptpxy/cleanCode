@@ -2,6 +2,7 @@ package com.pxy.designpattern;
 
 import com.pxy.designpattern.decorator.ShowColor;
 import com.pxy.designpattern.decorator.ShowColorFactory;
+import com.pxy.designpattern.factorymethod.*;
 import com.pxy.designpattern.proxy.OperationContextProxy;
 import com.pxy.designpattern.simplefactory.Operation;
 import com.pxy.designpattern.simplefactory.OperationFactory;
@@ -75,5 +76,63 @@ public class Computer {
         return operationContextProxy.execute(num1,operator,num2);
     }
 
+    /**
+     * 增加新操作类型时增加对应的工厂类即可，无需更改原有工厂类代码。
+     * 但对工厂类型的使用判断放到客户端中了，增加了客户端的复杂度。且每新增一种操作就要新增两个类，代码量增加较多。
+     * 所以只在实例化对象的逻辑比较复杂、新增新的操作类型的需求较频繁时，才推荐使用工厂方法模式
+     */
+    public int computeByFactoryMethod(int num1, String operator, int num2) throws Exception {
+        OperateFactory operateFactory;
+        switch (operator) {
+            case "+":
+                operateFactory = new SumFactory();
+                break;
+            case "-":
+                operateFactory = new SubFactory();
+                break;
+            case "*":
+                operateFactory = new MulFactory();
+                break;
+            case "/":
+                operateFactory = new DivFactory();
+                break;
+            case "%":
+                operateFactory = new ModFactory();
+                break;
+            default:
+                throw new Exception("运算符输入错误!");
+        }
+        Operation operation = operateFactory.newOperationInstance();
+        return operation.operate(num1,num2);
+    }
+
+    /**
+     * 抽象工厂模式实现一系列有关联的方法的调用
+     */
+    public int computeByAbstractFactory(int num1, String operator, int num2) throws Exception {
+        OperateFactory operateFactory;
+        switch (operator) {
+            case "+":
+                operateFactory = new SumFactory();
+                break;
+            case "-":
+                operateFactory = new SubFactory();
+                break;
+            case "*":
+                operateFactory = new MulFactory();
+                break;
+            case "/":
+                operateFactory = new DivFactory();
+                break;
+            case "%":
+                operateFactory = new ModFactory();
+                break;
+            default:
+                throw new Exception("运算符输入错误!");
+        }
+        ShowColor showColor = operateFactory.newShowColorInstance();
+        showColor.setComputer(new Computer());
+        return showColor.computeByStrategy(num1,operator,num2);
+    }
 
 }
