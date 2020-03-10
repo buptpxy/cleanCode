@@ -3,13 +3,62 @@ package com.pxy.designpattern;
 import com.pxy.designpattern.decorator.ShowColor;
 import com.pxy.designpattern.decorator.ShowColorFactory;
 import com.pxy.designpattern.factorymethod.*;
+import com.pxy.designpattern.prototype.Brand;
 import com.pxy.designpattern.proxy.OperationContextProxy;
 import com.pxy.designpattern.simplefactory.Operation;
 import com.pxy.designpattern.simplefactory.OperationFactory;
 import com.pxy.designpattern.strategy.OperationContext;
 import com.pxy.designpattern.strategy.OperationContextImpl;
 
-public class Computer {
+import java.util.Collections;
+import java.util.List;
+
+public class Computer implements Cloneable{
+    private int price;
+    private Brand brand = new Brand();
+    private String type;
+    private String color;
+    private String productionDate;
+    public int getPrice() {
+        return price;
+    }
+    public void setPrice(int price) {
+        this.price = price;
+    }
+    public String getBrandName() {
+        return brand.getName();
+    }
+    public void setBrandName(String name) {
+        brand.setName(name);
+    }
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
+    }
+    public String getColor() {
+        return color;
+    }
+    public void setColor(String color) {
+        this.color = color;
+    }
+    public String getProductionDate() {
+        return productionDate;
+    }
+    public void setProductionDate(String productionDate) {
+        this.productionDate = productionDate;
+    }
+
+    public Computer clone() throws CloneNotSupportedException {
+        return (Computer)super.clone();
+    }
+    public Computer deepClone() throws CloneNotSupportedException {
+        Computer computerCopy = (Computer)super.clone();
+        computerCopy.brand = brand.deepClone();
+        return computerCopy;
+    }
+
     /**
      * 下面的函数实现了一个简易计算器，可实现加减乘除操作
      * 这个方法的缺点有：
@@ -133,6 +182,56 @@ public class Computer {
         ShowColor showColor = operateFactory.newShowColorInstance();
         showColor.setComputer(new Computer());
         return showColor.computeByStrategy(num1,operator,num2);
+    }
+
+    public List<Computer> generateThreeComputers() {
+        List<Computer> computers = Collections.emptyList();
+        Computer computer1 = new Computer();
+        computer1.setPrice(10);
+        computer1.setBrandName("卡西欧");
+        computer1.setColor("黑色");
+        computer1.setType("简单计算器");
+        computer1.setProductionDate("2020-03-10");
+        computers.add(computer1);
+
+        Computer computer2 = new Computer();
+        computer2.setPrice(11);
+        computer2.setBrandName("卡西欧");
+        computer2.setColor("黑色");
+        computer2.setType("简单计算器");
+        computer2.setProductionDate("2020-03-10");
+        computers.add(computer2);
+
+        Computer computer3 = new Computer();
+        computer3.setPrice(10);
+        computer3.setBrandName("卡东欧");
+        computer3.setColor("黑色");
+        computer3.setType("简单计算器");
+        computer3.setProductionDate("2020-03-10");
+        computers.add(computer3);
+        return computers;
+    }
+
+    public List<Computer> generateThreeComputersByClone() throws CloneNotSupportedException {
+        List<Computer> computers = Collections.emptyList();
+        Computer computer1 = new Computer();
+        computer1.setPrice(10);
+        computer1.setBrandName("卡西欧");
+        computer1.setColor("黑色");
+        computer1.setType("简单计算器");
+        computer1.setProductionDate("2020-03-10");
+        computers.add(computer1);
+
+        //由于与computer1中不同的price字段是非引用字段，故使用浅拷贝即可
+        Computer computer2 = computer1.clone();
+        computer2.setPrice(11);
+        computers.add(computer2);
+
+        //由于与computer1中不同的brand字段是引用字段，故需使用深拷贝
+        Computer computer3 = computer1.deepClone();
+        computer3.setBrandName("卡东欧");
+        computers.add(computer3);
+        return computers;
     }
 
 }
