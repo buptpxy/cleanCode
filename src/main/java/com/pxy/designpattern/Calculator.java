@@ -2,6 +2,7 @@ package com.pxy.designpattern;
 
 import com.pxy.designpattern.decorator.ShowColor;
 import com.pxy.designpattern.decorator.ShowColorFactory;
+import com.pxy.designpattern.facade.*;
 import com.pxy.designpattern.factorymethod.*;
 import com.pxy.designpattern.prototype.Brand;
 import com.pxy.designpattern.proxy.OperationContextProxy;
@@ -13,7 +14,7 @@ import com.pxy.designpattern.strategy.OperationContextImpl;
 import java.util.Collections;
 import java.util.List;
 
-public class Computer implements Cloneable{
+public class Calculator implements Cloneable{
     private int price;
     private Brand brand = new Brand();
     private String type;
@@ -50,13 +51,13 @@ public class Computer implements Cloneable{
         this.productionDate = productionDate;
     }
 
-    public Computer clone() throws CloneNotSupportedException {
-        return (Computer)super.clone();
+    public Calculator clone() throws CloneNotSupportedException {
+        return (Calculator)super.clone();
     }
-    public Computer deepClone() throws CloneNotSupportedException {
-        Computer computerCopy = (Computer)super.clone();
-        computerCopy.brand = brand.deepClone();
-        return computerCopy;
+    public Calculator deepClone() throws CloneNotSupportedException {
+        Calculator calculatorCopy = (Calculator)super.clone();
+        calculatorCopy.brand = brand.deepClone();
+        return calculatorCopy;
     }
 
     /**
@@ -106,12 +107,12 @@ public class Computer implements Cloneable{
      * 给计算器计算结果的时候增加打印颜色的功能，使用装饰模式。这样无论要打印多少种颜色和按何种顺序打印，都可由参数colors指定，也不影响原来的计算功能
      */
     public int computeByDecorator(int num1, String operator, int num2, String[] colors) throws Exception {
-        Computer computer = new Computer();
+        Calculator calculator = new Calculator();
         ShowColor showColor = ShowColorFactory.newShowColorInstance(colors[0]);
-        showColor.setComputer(computer);
+        showColor.setCalculator(calculator);
         for (int i = 1; i < colors.length; i++) {
             ShowColor showColorI = ShowColorFactory.newShowColorInstance(colors[i]);
-            showColorI.setComputer(showColor);
+            showColorI.setCalculator(showColor);
             showColor = showColorI;
         }
         return showColor.computeByStrategy(num1,operator,num2);
@@ -180,58 +181,85 @@ public class Computer implements Cloneable{
                 throw new Exception("运算符输入错误!");
         }
         ShowColor showColor = operateFactory.newShowColorInstance();
-        showColor.setComputer(new Computer());
+        showColor.setCalculator(new Calculator());
         return showColor.computeByStrategy(num1,operator,num2);
     }
 
-    public List<Computer> generateThreeComputers() {
-        List<Computer> computers = Collections.emptyList();
-        Computer computer1 = new Computer();
-        computer1.setPrice(10);
-        computer1.setBrandName("卡西欧");
-        computer1.setColor("黑色");
-        computer1.setType("简单计算器");
-        computer1.setProductionDate("2020-03-10");
-        computers.add(computer1);
+    public List<Calculator> generateThreeCalculators() {
+        List<Calculator> calculators = Collections.emptyList();
+        Calculator calculator1 = new Calculator();
+        calculator1.setPrice(10);
+        calculator1.setBrandName("卡西欧");
+        calculator1.setColor("黑色");
+        calculator1.setType("简单计算器");
+        calculator1.setProductionDate("2020-03-10");
+        calculators.add(calculator1);
 
-        Computer computer2 = new Computer();
-        computer2.setPrice(11);
-        computer2.setBrandName("卡西欧");
-        computer2.setColor("黑色");
-        computer2.setType("简单计算器");
-        computer2.setProductionDate("2020-03-10");
-        computers.add(computer2);
+        Calculator calculator2 = new Calculator();
+        calculator2.setPrice(11);
+        calculator2.setBrandName("卡西欧");
+        calculator2.setColor("黑色");
+        calculator2.setType("简单计算器");
+        calculator2.setProductionDate("2020-03-10");
+        calculators.add(calculator2);
 
-        Computer computer3 = new Computer();
-        computer3.setPrice(10);
-        computer3.setBrandName("卡东欧");
-        computer3.setColor("黑色");
-        computer3.setType("简单计算器");
-        computer3.setProductionDate("2020-03-10");
-        computers.add(computer3);
-        return computers;
+        Calculator calculator3 = new Calculator();
+        calculator3.setPrice(10);
+        calculator3.setBrandName("卡东欧");
+        calculator3.setColor("黑色");
+        calculator3.setType("简单计算器");
+        calculator3.setProductionDate("2020-03-10");
+        calculators.add(calculator3);
+        return calculators;
     }
 
-    public List<Computer> generateThreeComputersByClone() throws CloneNotSupportedException {
-        List<Computer> computers = Collections.emptyList();
-        Computer computer1 = new Computer();
-        computer1.setPrice(10);
-        computer1.setBrandName("卡西欧");
-        computer1.setColor("黑色");
-        computer1.setType("简单计算器");
-        computer1.setProductionDate("2020-03-10");
-        computers.add(computer1);
+    public List<Calculator> generateThreeCalculatorsByClone() throws CloneNotSupportedException {
+        List<Calculator> calculators = Collections.emptyList();
+        Calculator calculator1 = new Calculator();
+        calculator1.setPrice(10);
+        calculator1.setBrandName("卡西欧");
+        calculator1.setColor("黑色");
+        calculator1.setType("简单计算器");
+        calculator1.setProductionDate("2020-03-10");
+        calculators.add(calculator1);
 
-        //由于与computer1中不同的price字段是非引用字段，故使用浅拷贝即可
-        Computer computer2 = computer1.clone();
-        computer2.setPrice(11);
-        computers.add(computer2);
+        //由于与calculator1中不同的price字段是非引用字段，故使用浅拷贝即可
+        Calculator calculator2 = calculator1.clone();
+        calculator2.setPrice(11);
+        calculators.add(calculator2);
 
-        //由于与computer1中不同的brand字段是引用字段，故需使用深拷贝
-        Computer computer3 = computer1.deepClone();
-        computer3.setBrandName("卡东欧");
-        computers.add(computer3);
-        return computers;
+        //由于与calculator1中不同的brand字段是引用字段，故需使用深拷贝
+        Calculator calculator3 = calculator1.deepClone();
+        calculator3.setBrandName("卡东欧");
+        calculators.add(calculator3);
+        return calculators;
+    }
+
+    public void packageCalculator() {
+        Chip chip = new Chip();
+        Keyboard keyboard = new Keyboard();
+        Screen screen = new Screen();
+        Shell shell = new Shell();
+
+        System.out.println("=======正在组装一个红色的计算器=======");
+        chip.packageChip();
+        keyboard.packageKeyboard();
+        screen.packageScreen();
+        shell.packageRedShell();
+        System.out.println("=======红色的计算器组装完毕=======");
+
+        System.out.println("=======正在组装一个黑色的计算器=======");
+        chip.packageChip();
+        keyboard.packageKeyboard();
+        screen.packageScreen();
+        shell.packageBlackShell();
+        System.out.println("=======黑色的计算器组装完毕=======");
+    }
+
+    public void packageCalculatorByFacade() throws Exception {
+        CalculatorPackager calculatorPackager = new CalculatorPackager();
+        calculatorPackager.packageCalculator("红");
+        calculatorPackager.packageCalculator("黑");
     }
 
 }

@@ -1,10 +1,5 @@
 package com.pxy.designpattern.strategy;
 
-import com.pxy.designpattern.Computer;
-import com.pxy.designpattern.decorator.ShowBlue;
-import com.pxy.designpattern.decorator.ShowColor;
-import com.pxy.designpattern.decorator.ShowRed;
-import com.pxy.designpattern.decorator.ShowYellow;
 import com.pxy.designpattern.simplefactory.*;
 
 import java.util.HashMap;
