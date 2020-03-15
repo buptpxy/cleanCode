@@ -1,5 +1,9 @@
 package com.pxy.designpattern;
 
+import com.pxy.designpattern.builder.BlackCalculatorBuilder;
+import com.pxy.designpattern.builder.BuilderDirector;
+import com.pxy.designpattern.builder.CalculatorBuilder;
+import com.pxy.designpattern.builder.RedCalculatorBuilder;
 import com.pxy.designpattern.decorator.ShowColor;
 import com.pxy.designpattern.decorator.ShowColorFactory;
 import com.pxy.designpattern.facade.*;
@@ -11,15 +15,67 @@ import com.pxy.designpattern.simplefactory.OperationFactory;
 import com.pxy.designpattern.strategy.OperationContext;
 import com.pxy.designpattern.strategy.OperationContextImpl;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class Calculator implements Cloneable{
+    private Chip chip;
+    private Keyboard keyboard;
+    private Screen screen;
+    private Shell shell;
     private int price;
     private Brand brand = new Brand();
     private String type;
     private String color;
     private String productionDate;
+
+    public Calculator() {
+        chip = new Chip();
+        keyboard = new Keyboard();
+        screen = new Screen();
+        shell = new Shell();
+    }
+    public Chip getChip() {
+        return chip;
+    }
+
+    public void setChip(Chip chip) {
+        this.chip = chip;
+    }
+
+    public Keyboard getKeyboard() {
+        return keyboard;
+    }
+
+    public void setKeyboard(Keyboard keyboard) {
+        this.keyboard = keyboard;
+    }
+
+    public Screen getScreen() {
+        return screen;
+    }
+
+    public void setScreen(Screen screen) {
+        this.screen = screen;
+    }
+
+    public Shell getShell() {
+        return shell;
+    }
+
+    public void setShell(Shell shell) {
+        this.shell = shell;
+    }
+
+    public Brand getBrand() {
+        return brand;
+    }
+
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
     public int getPrice() {
         return price;
     }
@@ -50,7 +106,6 @@ public class Calculator implements Cloneable{
     public void setProductionDate(String productionDate) {
         this.productionDate = productionDate;
     }
-
     public Calculator clone() throws CloneNotSupportedException {
         return (Calculator)super.clone();
     }
@@ -186,7 +241,7 @@ public class Calculator implements Cloneable{
     }
 
     public List<Calculator> generateThreeCalculators() {
-        List<Calculator> calculators = Collections.emptyList();
+        List<Calculator> calculators = new ArrayList<>();
         Calculator calculator1 = new Calculator();
         calculator1.setPrice(10);
         calculator1.setBrandName("卡西欧");
@@ -212,9 +267,9 @@ public class Calculator implements Cloneable{
         calculators.add(calculator3);
         return calculators;
     }
-
+    //使用原型模式拷贝计算器
     public List<Calculator> generateThreeCalculatorsByClone() throws CloneNotSupportedException {
-        List<Calculator> calculators = Collections.emptyList();
+        List<Calculator> calculators = new ArrayList<>();
         Calculator calculator1 = new Calculator();
         calculator1.setPrice(10);
         calculator1.setBrandName("卡西欧");
@@ -256,10 +311,32 @@ public class Calculator implements Cloneable{
         System.out.println("=======黑色的计算器组装完毕=======");
     }
 
+    /**
+     * 使用外观模式组装计算器
+     */
     public void packageCalculatorByFacade() throws Exception {
         CalculatorPackager calculatorPackager = new CalculatorPackager();
         calculatorPackager.packageCalculator("红");
         calculatorPackager.packageCalculator("黑");
+    }
+
+    /**
+     * 使用建造者模式制造计算器
+     */
+    public List<Calculator> buildCalculatorByBuilder() {
+        List<Calculator> calculators = new ArrayList<>();
+        //制造一个红色的计算器
+        CalculatorBuilder redCalculatorBuilder = new RedCalculatorBuilder();
+        BuilderDirector redBuilderDirector = new BuilderDirector(redCalculatorBuilder);
+        Calculator redCalculator = redBuilderDirector.buildCalculator();
+        calculators.add(redCalculator);
+        //制造一个黑色的计算器
+        CalculatorBuilder blackCalculatorBuilder = new BlackCalculatorBuilder();
+        BuilderDirector blackBuilderDirector = new BuilderDirector(blackCalculatorBuilder);
+        Calculator blackCalculator = blackBuilderDirector.buildCalculator();
+        calculators.add(blackCalculator);
+
+        return calculators;
     }
 
 }
