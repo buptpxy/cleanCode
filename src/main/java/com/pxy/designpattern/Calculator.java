@@ -1,23 +1,30 @@
 package com.pxy.designpattern;
 
+import com.pxy.designpattern.adapter.SlightlyOldStateAdapter;
 import com.pxy.designpattern.builder.BlackCalculatorBuilder;
 import com.pxy.designpattern.builder.BuilderDirector;
 import com.pxy.designpattern.builder.CalculatorBuilder;
 import com.pxy.designpattern.builder.RedCalculatorBuilder;
 import com.pxy.designpattern.decorator.ShowColor;
 import com.pxy.designpattern.decorator.ShowColorFactory;
+import com.pxy.designpattern.observer.Buyer;
+import com.pxy.designpattern.observer.Event;
+import com.pxy.designpattern.observer.EventHandler;
+import com.pxy.designpattern.observer.Seller;
 import com.pxy.designpattern.facade.*;
 import com.pxy.designpattern.factorymethod.*;
 import com.pxy.designpattern.prototype.Brand;
 import com.pxy.designpattern.proxy.OperationContextProxy;
 import com.pxy.designpattern.simplefactory.Operation;
 import com.pxy.designpattern.simplefactory.OperationFactory;
+import com.pxy.designpattern.state.DeadProductState;
+import com.pxy.designpattern.state.NewProductState;
+import com.pxy.designpattern.state.OldProductState;
+import com.pxy.designpattern.state.State;
 import com.pxy.designpattern.strategy.OperationContext;
 import com.pxy.designpattern.strategy.OperationContextImpl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Calculator implements Cloneable{
     private Chip chip;
@@ -28,9 +35,12 @@ public class Calculator implements Cloneable{
     private Brand brand = new Brand();
     private String type;
     private String color;
-    private String productionDate;
+    private Calendar productionDate;
+    private State state;
+
 
     public Calculator() {
+        state = new NewProductState();
         chip = new Chip();
         keyboard = new Keyboard();
         screen = new Screen();
@@ -79,9 +89,10 @@ public class Calculator implements Cloneable{
     public int getPrice() {
         return price;
     }
-    public void setPrice(int price) {
-        this.price = price;
-    }
+//    public void setPrice(int price) {
+//        this.price = price;
+//    }
+    public void setPrice(int basePrice) {state.setPrice(this,basePrice);}
     public String getBrandName() {
         return brand.getName();
     }
@@ -100,11 +111,17 @@ public class Calculator implements Cloneable{
     public void setColor(String color) {
         this.color = color;
     }
-    public String getProductionDate() {
+    public Calendar getProductionDate() {
         return productionDate;
     }
-    public void setProductionDate(String productionDate) {
+    public void setProductionDate(Calendar productionDate) {
         this.productionDate = productionDate;
+    }
+    public State getState() {
+        return state;
+    }
+    public void setState(State state) {
+        this.state = state;
     }
     public Calculator clone() throws CloneNotSupportedException {
         return (Calculator)super.clone();
@@ -242,12 +259,13 @@ public class Calculator implements Cloneable{
 
     public List<Calculator> generateThreeCalculators() {
         List<Calculator> calculators = new ArrayList<>();
+        Calendar productionDate = Calendar.getInstance();
         Calculator calculator1 = new Calculator();
         calculator1.setPrice(10);
         calculator1.setBrandName("卡西欧");
         calculator1.setColor("黑色");
         calculator1.setType("简单计算器");
-        calculator1.setProductionDate("2020-03-10");
+        calculator1.setProductionDate(productionDate);
         calculators.add(calculator1);
 
         Calculator calculator2 = new Calculator();
@@ -255,7 +273,7 @@ public class Calculator implements Cloneable{
         calculator2.setBrandName("卡西欧");
         calculator2.setColor("黑色");
         calculator2.setType("简单计算器");
-        calculator2.setProductionDate("2020-03-10");
+        calculator2.setProductionDate(productionDate);
         calculators.add(calculator2);
 
         Calculator calculator3 = new Calculator();
@@ -263,7 +281,7 @@ public class Calculator implements Cloneable{
         calculator3.setBrandName("卡东欧");
         calculator3.setColor("黑色");
         calculator3.setType("简单计算器");
-        calculator3.setProductionDate("2020-03-10");
+        calculator3.setProductionDate(productionDate);
         calculators.add(calculator3);
         return calculators;
     }
@@ -275,7 +293,7 @@ public class Calculator implements Cloneable{
         calculator1.setBrandName("卡西欧");
         calculator1.setColor("黑色");
         calculator1.setType("简单计算器");
-        calculator1.setProductionDate("2020-03-10");
+        calculator1.setProductionDate(productionDate);
         calculators.add(calculator1);
 
         //由于与calculator1中不同的price字段是非引用字段，故使用浅拷贝即可
@@ -339,4 +357,108 @@ public class Calculator implements Cloneable{
         return calculators;
     }
 
+    /**
+     * 根据时间改变计算器的价格
+     */
+    public void setPriceByTime(Calculator calculator) {
+        int basePrice = 10;
+        Calendar productionDate = calculator.getProductionDate();
+        Calendar turnOldDate = (Calendar) productionDate.clone();
+        Calendar turnDeadDate = (Calendar) productionDate.clone();
+        turnOldDate.add(Calendar.YEAR,1);//生产1年后
+        turnDeadDate.add(Calendar.YEAR,3);//生产3年后
+        Calendar now = Calendar.getInstance();
+        if (now.before(turnOldDate)) {//判断状态
+            calculator.setPrice(basePrice); //对应的业务逻辑
+        }else if (now.before(turnDeadDate)) {
+            calculator.setPrice(basePrice/2);
+        }else {
+            calculator.setPrice(basePrice/10);
+        }
+    }
+
+    /**
+     * 把状态改变的逻辑抽象出来
+     */
+    private enum ProductState {
+        NEW,
+        OLD,
+        DEAD
+    }
+
+    private ProductState productState;
+
+    public ProductState getProductState() {
+        return productState;
+    }
+
+    public void setProductState(ProductState productState) {
+        this.productState = productState;
+    }
+
+    private void setProductStateValue(Calculator calculator) {
+        Calendar productionDate = calculator.getProductionDate();
+        Calendar turnOldDate = (Calendar) productionDate.clone();
+        Calendar turnDeadDate = (Calendar) productionDate.clone();
+        turnOldDate.add(Calendar.YEAR,1);//生产1年后
+        turnDeadDate.add(Calendar.YEAR,3);//生产3年后
+        Calendar now = Calendar.getInstance();
+        if (now.before(turnOldDate)) {//判断状态
+            calculator.setProductState(ProductState.NEW);
+        }else if (now.before(turnDeadDate)) {
+            calculator.setProductState(ProductState.OLD);
+        }else {
+            calculator.setProductState(ProductState.DEAD);
+        }
+    }
+
+    public void setPriceByProductState(Calculator calculator) {
+        int basePrice = 10;
+        if (calculator.getProductState() == ProductState.NEW) {
+            calculator.setPrice(basePrice);
+        }else if (calculator.getProductState() == ProductState.OLD) {
+            calculator.setPrice(basePrice/2);
+        }else if (calculator.getProductState() == ProductState.DEAD) {
+            calculator.setPrice(basePrice/10);
+        }else {
+            calculator.setPrice(0);
+        }
+    }
+
+    /**
+     * 使用状态模式来设置计算器的价格，使用适配器模式增加SlightlyOld状态，客户端代码不变，状态的变化流程写死在具体的State类中
+     */
+    public void setPriceByState(Calculator calculator) {
+        int basePrice = 10;
+        calculator.setPrice(basePrice);
+    }
+    /**
+     * 使用观察者模式来通知买方和卖方买入或卖掉计算器
+     */
+    public void NotifyObserver(Calculator calculator) {
+        int price = calculator.getPrice();
+        Buyer buyer = new Buyer();
+        Seller seller = new Seller();
+        Event buyEvent = buyer::buy;
+        Event sellEvent = seller::sell;
+        EventHandler.addEvent(buyEvent);
+        EventHandler.addEvent(sellEvent);
+        EventHandler.Notify(price);
+    }
+    /**
+     * 使用职责链模式来设置计算器的价格，在客户端来配置状态的变化流程
+     */
+    public void setPriceByResponsibility(Calculator calculator) {
+        int basePrice = 10;
+        State newState = new NewProductState();
+        State slightlyOldState = new SlightlyOldStateAdapter();
+        State oldState = new OldProductState();
+        State deadState = new DeadProductState();
+        newState.setNextState(slightlyOldState);
+        slightlyOldState.setNextState(oldState);
+        oldState.setNextState(deadState);
+
+        calculator.setState(newState);
+        calculator.setPrice(basePrice);
+    }
 }
