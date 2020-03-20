@@ -5,6 +5,7 @@ public class OperationContextProxy implements OperationContext {
     OperationContext operationContext;
     public OperationContextProxy(String password) throws Exception {
         if (isPasswordRight(password)) {
+            System.out.println("口令正确，计算结果为：");
             if (operationContext == null) {
                 operationContext = new OperationContextImpl();
             }

@@ -14,6 +14,7 @@ public class PasswordHandler implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         if (isPasswordRight(password)) {
+            System.out.println("口令正确，计算结果为：");
             return method.invoke(target,args);
         } else {
             throw new Exception("口令错误！");
