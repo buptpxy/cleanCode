@@ -7,6 +7,8 @@ import com.pxy.designpattern.builder.CalculatorBuilder;
 import com.pxy.designpattern.builder.RedCalculatorBuilder;
 import com.pxy.designpattern.decorator.ShowColor;
 import com.pxy.designpattern.decorator.ShowColorFactory;
+import com.pxy.designpattern.memento.MementoCaretaker;
+import com.pxy.designpattern.memento.Memento;
 import com.pxy.designpattern.observer.Buyer;
 import com.pxy.designpattern.observer.Event;
 import com.pxy.designpattern.observer.EventHandler;
@@ -31,13 +33,12 @@ public class Calculator implements Cloneable{
     private Keyboard keyboard;
     private Screen screen;
     private Shell shell;
-    private int price;
-    private Brand brand = new Brand();
+    private Brand brand;
     private String type;
     private String color;
     private Calendar productionDate;
+    private int price;
     private State state;
-
 
     public Calculator() {
         state = new NewProductState();
@@ -45,6 +46,7 @@ public class Calculator implements Cloneable{
         keyboard = new Keyboard();
         screen = new Screen();
         shell = new Shell();
+        brand = new Brand();
     }
     public Chip getChip() {
         return chip;
@@ -130,6 +132,15 @@ public class Calculator implements Cloneable{
         Calculator calculatorCopy = (Calculator)super.clone();
         calculatorCopy.brand = brand.deepClone();
         return calculatorCopy;
+    }
+
+    public Memento backup() {
+        return new Memento(state,price);
+    }
+
+    public void recover(Memento memento) {
+        state = memento.getState();
+        price = memento.getPrice();
     }
 
     /**
@@ -460,5 +471,30 @@ public class Calculator implements Cloneable{
 
         calculator.setState(newState);
         calculator.setPrice(basePrice);
+    }
+
+    public void backupByMemento() {
+        MementoCaretaker mementoCaretaker = new MementoCaretaker();
+        Calculator calculator = new Calculator();
+        //第一次更改状态和价格后备份
+        calculator.setState(new NewProductState());
+        calculator.setPrice(10);
+        mementoCaretaker.setMemento(calculator.backup());
+        //第二次更改状态和价格后备份
+        calculator.setState(new OldProductState());
+        calculator.setPrice(9);
+        mementoCaretaker.setMemento(calculator.backup());
+        //第三次更改状态和价格后备份
+        calculator.setState(new DeadProductState());
+        calculator.setPrice(8);
+        mementoCaretaker.setMemento(calculator.backup());
+
+        System.out.println(calculator.getPrice());//现在是8
+
+        calculator.recover(mementoCaretaker.getMemento());//恢复备份
+        System.out.println(calculator.getPrice());//现在是9
+
+        calculator.recover(mementoCaretaker.getMemento());//恢复备份
+        System.out.println(calculator.getPrice());//现在是10
     }
 }
