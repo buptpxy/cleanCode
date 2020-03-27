@@ -1,9 +1,6 @@
 package com.pxy.designpattern.command;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Invoker {
 
@@ -31,6 +28,8 @@ public class Invoker {
         }
         for (Command command:commandList) {
             command.executeCommand();
+            Iterator iterator = commandList.iterator();
+            iterator.next();
         }
     }
 }

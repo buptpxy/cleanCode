@@ -177,4 +177,28 @@ public class Calculator implements Cloneable {
     public void packageShell() {
         System.out.println("A red shell has packaged!");
     }
+
+    public int compute(int num1, String operator, int num2) throws Exception {
+        switch (operator) {
+            case "+":
+                return num1+num2;
+            case "-":
+                return num1-num2;
+            case "*":
+                return num1*num2;
+            case "/":
+                if (num2 == 0) {
+                    throw new Exception("除数不能为0");
+                } else {
+                    return num1/num2;
+                }
+            default:
+                throw new Exception("运算符输入错误!");
+        }
+    }
+
+    public int computeByStrategy(int num1, String operator, int num2) throws Exception {
+        OperationContext operationContext = new OperationContextImpl();
+        return operationContext.execute(num1,operator,num2);
+    }
 }
