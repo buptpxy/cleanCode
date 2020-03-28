@@ -14,6 +14,7 @@ import com.pxy.designpattern.decorator.ShowColor;
 import com.pxy.designpattern.decorator.ShowColorFactory;
 import com.pxy.designpattern.facade.*;
 import com.pxy.designpattern.factorymethod.*;
+import com.pxy.designpattern.flyweight.*;
 import com.pxy.designpattern.mediator.*;
 import com.pxy.designpattern.memento.MementoCaretaker;
 import com.pxy.designpattern.observer.Buyer;
@@ -453,12 +454,21 @@ public class Client {
         inputBox.doWork("on");
     }
 
+    /**
+     * 使用享元模式实例化计算器对象
+     */
+    public static void computeByFlyweight() {
+        Flyweight calculator1 = CalculatorFactory.getInstance("+");//3
+        System.out.println(calculator1.operate(new ExternalNums(1,2)));
+        Flyweight calculator2 = CalculatorFactory.getInstance("+");
+        System.out.println(calculator2.operate(new ExternalNums(2,3))); //5
+        Flyweight calculator3 = new UnSharedCalculator();
+        System.out.println(calculator3.operate(new ExternalNums(3,2))); //0
+        System.out.println("CalculatorFactory中的实例个数为：" + CalculatorFactory.instanceCount()); //1
+    }
+
     public static void main(String[] args) {
-        try {
-            displayComputeByMediator();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        computeByFlyweight();
     }
 
 }
