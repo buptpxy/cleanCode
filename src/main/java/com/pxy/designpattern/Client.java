@@ -15,6 +15,11 @@ import com.pxy.designpattern.decorator.ShowColorFactory;
 import com.pxy.designpattern.facade.*;
 import com.pxy.designpattern.factorymethod.*;
 import com.pxy.designpattern.flyweight.*;
+import com.pxy.designpattern.interpreter.ExpressionUtil;
+import com.pxy.designpattern.interpreter.SimpleCalculator;
+import com.pxy.designpattern.iterator.ConcreteAggregate;
+import com.pxy.designpattern.iterator.ConcreteIterator;
+import com.pxy.designpattern.iterator.Iterator;
 import com.pxy.designpattern.mediator.*;
 import com.pxy.designpattern.memento.MementoCaretaker;
 import com.pxy.designpattern.observer.Buyer;
@@ -32,6 +37,7 @@ import com.pxy.designpattern.visitor.*;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 
 public class Client {
     /**
@@ -483,8 +489,35 @@ public class Client {
         ReportUtil.report(personalCustomer);
     }
 
+    /**
+     * 使用解释器模式实现新语言：运算公式的解析
+     */
+    public static int computeByInterpreter(String expressionStr,int[] nums) throws Exception {
+        Map<String,Integer> expressionMap = ExpressionUtil.genExpressionMap(expressionStr,nums);
+        SimpleCalculator calculator = new SimpleCalculator(expressionMap);
+        return calculator.compute(expressionStr.toCharArray());
+    }
+
+    /**
+     * 使用迭代器模式遍历数组栈
+     */
+    public static void showByIterator() throws Exception {
+        ConcreteAggregate intStack = new ConcreteAggregate(5);
+        for (int i = 0; i < intStack.getCapacity(); i++) {
+            intStack.push(i);
+        }
+        Iterator stackIterator = intStack.createIterator();
+        while (stackIterator.hasNext()) {
+            System.out.println(stackIterator.next());
+        }
+    }
+
     public static void main(String[] args) {
-        addActionForCustomer();
+        try {
+            showByIterator();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
