@@ -1,7 +1,5 @@
 package com.pxy.designpattern.strategy;
 
-import com.pxy.designpattern.simplefactory.*;
-
 import java.util.HashMap;
 import java.util.Map;
 

@@ -1,6 +1,5 @@
 package com.pxy.designpattern.simplefactory;
 
-import com.pxy.designpattern.Client;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;

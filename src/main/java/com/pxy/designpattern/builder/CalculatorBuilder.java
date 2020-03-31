@@ -1,7 +1,5 @@
 package com.pxy.designpattern.builder;
 
-import com.pxy.designpattern.Calculator;
-
 public abstract class CalculatorBuilder {
     public abstract void buildChip();
     public abstract void buildScreen();

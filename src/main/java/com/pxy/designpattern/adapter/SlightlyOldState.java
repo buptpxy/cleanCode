@@ -1,9 +1,5 @@
 package com.pxy.designpattern.adapter;
 
-import com.pxy.designpattern.Calculator;
-import com.pxy.designpattern.state.OldProductState;
-import com.pxy.designpattern.state.State;
-
 import java.util.Calendar;
 
 public class SlightlyOldState {

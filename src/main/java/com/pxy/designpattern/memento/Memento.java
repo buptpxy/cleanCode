@@ -1,7 +1,5 @@
 package com.pxy.designpattern.memento;
 
-import com.pxy.designpattern.state.State;
-
 public class Memento {
     private State state;
     private int price;

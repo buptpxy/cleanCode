@@ -1,8 +1,5 @@
 package com.pxy.designpattern.adapter;
 
-import com.pxy.designpattern.Calculator;
-import com.pxy.designpattern.state.State;
-
 public class SlightlyOldStateAdapter extends State {
     private SlightlyOldState slightlyOldState = new SlightlyOldState();
     @Override

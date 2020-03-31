@@ -1,11 +1,5 @@
 package com.pxy.designpattern.builder;
 
-import com.pxy.designpattern.Calculator;
-import com.pxy.designpattern.facade.Chip;
-import com.pxy.designpattern.facade.Keyboard;
-import com.pxy.designpattern.facade.Screen;
-import com.pxy.designpattern.facade.Shell;
-
 public class RedCalculatorBuilder extends CalculatorBuilder {
     private Calculator calculator = new Calculator();
 

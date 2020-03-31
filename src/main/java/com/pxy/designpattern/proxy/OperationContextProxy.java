@@ -1,8 +1,5 @@
 package com.pxy.designpattern.proxy;
 
-import com.pxy.designpattern.strategy.OperationContext;
-import com.pxy.designpattern.strategy.OperationContextImpl;
-
 public class OperationContextProxy implements OperationContext {
     public static final String PASSWORD = "芝麻开门";
     OperationContext operationContext;

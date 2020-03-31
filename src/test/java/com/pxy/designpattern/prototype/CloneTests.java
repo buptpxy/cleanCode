@@ -1,6 +1,5 @@
 package com.pxy.designpattern.prototype;
 
-import com.pxy.designpattern.Calculator;
 import org.junit.Assert;
 import org.junit.Test;
 
