@@ -5,7 +5,6 @@ public class Calculator implements Cloneable {
     private Keyboard keyboard;
     private Screen screen;
     private Shell shell;
-    private int price;
 
     public Calculator() {
         chip = new Chip();
@@ -44,33 +43,6 @@ public class Calculator implements Cloneable {
 
     public void setShell(Shell shell) {
         this.shell = shell;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int compute(int num1, String operator, int num2) throws Exception {
-        switch (operator) {
-            case "+":
-                return num1+num2;
-            case "-":
-                return num1-num2;
-            case "*":
-                return num1*num2;
-            case "/":
-                if (num2 == 0) {
-                    throw new Exception("除数不能为0");
-                } else {
-                    return num1/num2;
-                }
-            default:
-                throw new Exception("运算符输入错误!");
-        }
     }
 
 }

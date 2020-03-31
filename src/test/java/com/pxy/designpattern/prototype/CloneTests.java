@@ -16,7 +16,7 @@ public class CloneTests {
         Calculator calculatorClone = calculator;
 
         //得到的calculatorClone的price和brandName与calculator相同
-        Assert.assertEquals("卡西欧", calculatorClone.getBrandName());
+        Assert.assertEquals("卡西欧", calculatorClone.getBrand());
         Assert.assertEquals(10, calculatorClone.getPrice());
 
         //更改calculatorClone的price为11后，calculator的price也变成了11
@@ -25,7 +25,7 @@ public class CloneTests {
 
         //更改calculatorClone的brandName为"卡西欧copy"后，calculator的brandName也变成了"卡西欧copy"
         calculatorClone.setBrandName("卡西欧copy");
-        Assert.assertEquals("卡西欧copy", calculator.getBrandName());
+        Assert.assertEquals("卡西欧copy", calculator.getBrand());
     }
 
     /**
@@ -44,7 +44,7 @@ public class CloneTests {
         Calculator calculatorClone = calculator.clone();
 
         //得到的calculatorClone的price和brandName与calculator相同
-        Assert.assertEquals("卡西欧", calculatorClone.getBrandName());
+        Assert.assertEquals("卡西欧", calculatorClone.getBrand());
         Assert.assertEquals(10, calculatorClone.getPrice());
 
         //更改calculatorClone的price为11后，calculator的price并不会变成11，仍然为10
@@ -53,7 +53,7 @@ public class CloneTests {
 
         //更改calculatorClone的brandName为"卡西欧copy"后，calculator的brandName也变成了"卡西欧copy"
         calculatorClone.setBrandName("卡西欧copy");
-        Assert.assertEquals("卡西欧copy", calculator.getBrandName());
+        Assert.assertEquals("卡西欧copy", calculator.getBrand());
     }
 
     /**
@@ -70,7 +70,7 @@ public class CloneTests {
         Calculator calculatorClone = calculator.deepClone();
 
         //得到的calculatorClone的price和brandName与calculator相同
-        Assert.assertEquals("卡西欧", calculatorClone.getBrandName());
+        Assert.assertEquals("卡西欧", calculatorClone.getBrand());
         Assert.assertEquals(10, calculatorClone.getPrice());
 
         //更改calculatorClone的price为11后，calculator的price并不会变成11，仍然为10
@@ -79,6 +79,6 @@ public class CloneTests {
 
         //更改calculatorClone的brandName为"卡西欧copy"后，calculator的brandName不会变成"卡西欧copy"，仍然为"卡西欧"
         calculatorClone.setBrandName("卡西欧copy");
-        Assert.assertEquals("卡西欧", calculator.getBrandName());
+        Assert.assertEquals("卡西欧", calculator.getBrand());
     }
 }

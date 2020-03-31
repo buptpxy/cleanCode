@@ -1,6 +1,6 @@
 package com.pxy.designpattern.decorator;
 
-public class Calculator {
+public class Calculator{
 
     protected int compute(int num1, String operator, int num2) throws Exception {
         switch (operator) {

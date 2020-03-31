@@ -5,7 +5,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class Client {
-    public List<Calculator> generateThreeCalculators() {
+    private static List<Calculator> generateThreeCalculators() {
         List<Calculator> calculators = new ArrayList<>();
         Calendar productionDate = Calendar.getInstance();
         Calculator calculator1 = new Calculator();
@@ -34,7 +34,7 @@ public class Client {
         return calculators;
     }
     //使用原型模式拷贝计算器
-    public List<Calculator> generateThreeCalculatorsByClone() throws CloneNotSupportedException {
+    public static List<Calculator> generateThreeCalculatorsByClone() throws CloneNotSupportedException {
         Calendar productionDate = Calendar.getInstance();
         List<Calculator> calculators = new ArrayList<>();
         Calculator calculator1 = new Calculator();
@@ -55,5 +55,9 @@ public class Client {
         calculator3.setBrandName("卡东欧");
         calculators.add(calculator3);
         return calculators;
+    }
+
+    public static void main(String[] args) throws CloneNotSupportedException {
+        System.out.println(generateThreeCalculatorsByClone().size());
     }
 }

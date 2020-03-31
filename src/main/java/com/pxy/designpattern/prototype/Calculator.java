@@ -22,8 +22,8 @@ public class Calculator implements Cloneable {
     }
 
 
-    public String getBrandName() {
-        return brand.getName();
+    public Brand getBrand() {
+        return brand;
     }
 
     public void setBrandName(String name) {

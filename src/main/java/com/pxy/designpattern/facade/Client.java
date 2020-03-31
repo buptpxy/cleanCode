@@ -1,7 +1,7 @@
 package com.pxy.designpattern.facade;
 
 public class Client {
-    public void packageCalculator() {
+    private static void packageCalculator() {
         Chip chip = new Chip();
         Keyboard keyboard = new Keyboard();
         Screen screen = new Screen();
@@ -25,10 +25,17 @@ public class Client {
     /**
      * 使用外观模式组装计算器
      */
-    public void packageCalculatorByFacade() throws Exception {
+    public static void packageCalculatorByFacade() throws Exception {
         CalculatorPackager calculatorPackager = new CalculatorPackager();
         calculatorPackager.packageCalculator("红");
         calculatorPackager.packageCalculator("黑");
     }
 
+    public static void main(String[] args) {
+        try {
+            packageCalculatorByFacade();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
