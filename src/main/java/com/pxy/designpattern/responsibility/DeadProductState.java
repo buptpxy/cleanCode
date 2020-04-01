@@ -1,6 +1,7 @@
 package com.pxy.designpattern.responsibility;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class DeadProductState extends State {
     @Override
@@ -14,14 +15,12 @@ public class DeadProductState extends State {
         }
     }
 
-    private boolean isDead(Calendar date) {
-        date.add(Calendar.YEAR,5);
-        Calendar now = Calendar.getInstance();
-        return now.after(date);
+    private boolean isDead(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.YEAR,5);
+        Date dateCopy = calendar.getTime();
+        return dateCopy.compareTo(new Date()) >= 0;
     }
 
-    @Override
-    protected void changeState(Calculator calculator) {
-
-    }
 }

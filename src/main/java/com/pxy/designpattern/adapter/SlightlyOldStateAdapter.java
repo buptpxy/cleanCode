@@ -8,7 +8,7 @@ public class SlightlyOldStateAdapter extends State {
     }
 
     @Override
-    protected void changeState(Calculator calculator) {
-        slightlyOldState.changeState(calculator);
+    protected void changeState(Calculator calculator,int basePrice) {
+        slightlyOldState.changeState(calculator,basePrice);
     }
 }

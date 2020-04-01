@@ -1,28 +1,28 @@
 package com.pxy.designpattern.adapter;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class SlightlyOldState {
-    private State nextState;
     public void changePrice(Calculator calculator, int basePrice) {
-        Calendar productionDate = calculator.getProductionDate();
+        Date productionDate = calculator.getProductionDate();
         if (isSlightlyOld(productionDate)) {
             calculator.setPrice(basePrice/2);
         } else {
-//            changeState(calculator);
-            if (nextState!=null) {
-                nextState.setPrice(calculator,basePrice);
-            }
+            changeState(calculator,basePrice);
         }
     }
 
-    private boolean isSlightlyOld(Calendar date) {
-        date.add(Calendar.YEAR,2);
-        Calendar now = Calendar.getInstance();
-        return now.before(date);
+    private boolean isSlightlyOld(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.YEAR,2);
+        Date dateCopy = calendar.getTime();
+        return dateCopy.compareTo(new Date()) >= 0;
     }
 
-    protected void changeState(Calculator calculator) {
+    protected void changeState(Calculator calculator,int basePrice) {
         calculator.setState(new OldProductState());
+        calculator.setPriceByState(basePrice);
     }
 }

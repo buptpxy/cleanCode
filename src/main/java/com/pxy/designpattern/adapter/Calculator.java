@@ -1,11 +1,15 @@
 package com.pxy.designpattern.adapter;
 
-import java.util.Calendar;
+import java.util.Date;
 
 public class Calculator implements Cloneable {
-    private Calendar productionDate;
+    private Date productionDate;
     private int price;
     private State state;
+
+    public Calculator() {
+        this.state = new NewProductState();
+    }
 
     public int getPrice() {
         return price;
@@ -15,11 +19,15 @@ public class Calculator implements Cloneable {
         this.price = price;
     }
 
-    public Calendar getProductionDate() {
+    public void setPriceByState(int basePrice) {
+        state.setPrice(this, basePrice);
+    }
+
+    public Date getProductionDate() {
         return productionDate;
     }
 
-    public void setProductionDate(Calendar productionDate) {
+    public void setProductionDate(Date productionDate) {
         this.productionDate = productionDate;
     }
 

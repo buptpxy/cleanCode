@@ -1,11 +1,10 @@
 package com.pxy.designpattern.state;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class Calculator implements Cloneable {
-    private String type;
-    private String color;
-    private Calendar productionDate;
+    private Date productionDate;
     private int price;
     private State state;
     private ProductState productState;
@@ -17,15 +16,19 @@ public class Calculator implements Cloneable {
     public int getPrice() {
         return price;
     }
-    public void setPrice(int basePrice) {
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setPriceByState(int basePrice) {
         state.setPrice(this, basePrice);
     }
 
-    public Calendar getProductionDate() {
+    public Date getProductionDate() {
         return productionDate;
     }
 
-    public void setProductionDate(Calendar productionDate) {
+    public void setProductionDate(Date productionDate) {
         this.productionDate = productionDate;
     }
 
@@ -37,30 +40,28 @@ public class Calculator implements Cloneable {
         this.state = state;
     }
 
-    public int compute(int num1, String operator, int num2) throws Exception {
-        switch (operator) {
-            case "+":
-                return num1+num2;
-            case "-":
-                return num1-num2;
-            case "*":
-                return num1*num2;
-            case "/":
-                if (num2 == 0) {
-                    throw new Exception("除数不能为0");
-                } else {
-                    return num1/num2;
-                }
-            default:
-                throw new Exception("运算符输入错误!");
-        }
-    }
-
-    public void setProductState(ProductState productState) {
-        this.productState = productState;
-    }
-
     public ProductState getProductState() {
         return this.productState;
+    }
+
+    public void setProductState() {
+        Calendar oldTime = Calendar.getInstance();
+        oldTime.setTime(productionDate);
+        oldTime.add(Calendar.YEAR,1);//生产1年后
+        Date turnOldDate = oldTime.getTime();
+
+        Calendar deadTime = Calendar.getInstance();
+        deadTime.setTime(productionDate);
+        deadTime.add(Calendar.YEAR,3);//生产3年后
+        Date turnDeadDate = deadTime.getTime();
+
+        Date now = new Date();
+        if (now.compareTo(turnOldDate) <= 0) {//判断状态
+            productState = ProductState.NEW;
+        }else if (now.compareTo(turnDeadDate) <= 0) {
+            productState = ProductState.OLD;
+        }else {
+            productState = ProductState.DEAD;
+        }
     }
 }

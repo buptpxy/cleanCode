@@ -1,28 +1,29 @@
 package com.pxy.designpattern.state;
 
 import java.util.Calendar;
+import java.util.Date;
 
 public class NewProductState extends State {
     @Override
     public void setPrice(Calculator calculator,int basePrice) {
-        Calendar productionDate = calculator.getProductionDate();
+        Date productionDate = calculator.getProductionDate();
         if (isNew(productionDate)) {
             calculator.setPrice(basePrice);
         } else {
-//            changeState(calculator);
-            if (nextState != null) {
-                nextState.setPrice(calculator,basePrice);
-            }
+            changeState(calculator,basePrice);
         }
     }
 
-    private boolean isNew(Calendar date) {
-        date.add(Calendar.YEAR,1);
-        Calendar now = Calendar.getInstance();
-        return now.before(date);
+    private boolean isNew(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.YEAR,1);
+        Date dateCopy = calendar.getTime();
+        return dateCopy.compareTo(new Date()) >= 0;
     }
     @Override
-    protected void changeState(Calculator calculator) {
-        calculator.setState(new SlightlyOldStateAdapter());
+    protected void changeState(Calculator calculator,int basePrice) {
+        calculator.setState(new OldProductState());
+        calculator.setPriceByState(basePrice);
     }
 }

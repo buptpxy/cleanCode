@@ -6,5 +6,4 @@ public abstract class State {
         this.nextState = nextState;
     }
     public abstract void setPrice(Calculator calculator, int basePrice);
-    protected abstract void changeState(Calculator calculator);
 }
