@@ -2,7 +2,7 @@ package com.pxy.designpattern.adapter;
 
 import java.util.Date;
 
-public class Calculator implements Cloneable {
+public class Calculator {
     private Date productionDate;
     private int price;
     private State state;

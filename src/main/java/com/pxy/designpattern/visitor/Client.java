@@ -10,9 +10,13 @@ public class Client {
         ReportUtil.addAction(enterpriseCustomer,new RepairAction());
         ReportUtil.report(enterpriseCustomer);
 
-        PersonalCustomer personalCustomer = new PersonalCustomer("pxy",11);
+        PersonalCustomer personalCustomer = new PersonalCustomer("pxy",10);
         ReportUtil.addAction(personalCustomer,new BuyAction(2));
         ReportUtil.addAction(personalCustomer,new RepairAction());
         ReportUtil.report(personalCustomer);
+    }
+
+    public static void main(String[] args) {
+        addActionForCustomer();
     }
 }

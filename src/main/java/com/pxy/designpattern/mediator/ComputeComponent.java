@@ -21,9 +21,8 @@ public class ComputeComponent extends Component {
     }
     //被客户端调用
     @Override
-    public void doWork(String message) throws Exception {
-        message = getDisplayValue(message);
-        mediator.interact(message,this);
+    public void doWork(String message) {
+
     }
 
     public String getDisplayValue(String str) throws Exception {

@@ -7,14 +7,14 @@ public class DisplayBox extends Component {
     }
 
     @Override
-    public String sendMessage(String message) throws Exception {
+    public String sendMessage(String message) {
         System.out.println(message);
         return message;
     }
 
     @Override
-    public void doWork(String message) throws Exception {
-        mediator.interact(message,this);
+    public void doWork(String message) {
+
     }
 
 }

@@ -29,4 +29,12 @@ public class Client {
         mediator.setComputeComponent(computeComponent);
         inputBox.doWork("on");
     }
+
+    public static void main(String[] args) {
+        try {
+            displayComputeByMediator();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

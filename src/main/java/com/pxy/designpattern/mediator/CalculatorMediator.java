@@ -20,16 +20,17 @@ public class CalculatorMediator extends Mediator{
     @Override
     public void interact(String message,Component component) throws Exception {
         if (component == inputBox) {
+            displayBox.sendMessage(message);
             if (message.equals("off")) {
                 return;
             }
-            displayBox.sendMessage(message);
             while (inputBox.turnOn) {
                 message = inputBox.sendMessage(message);
                 message = computeComponent.sendMessage(message);
                 displayBox.sendMessage(message);
                 if (computeComponent.turnOff) {
                     inputBox.sendMessage("off");
+                    displayBox.sendMessage("off");
                 }
             }
         }else {

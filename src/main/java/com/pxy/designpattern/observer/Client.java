@@ -4,7 +4,7 @@ public class Client {
     /**
      * 使用观察者模式来通知买方和卖方买入或卖掉计算器
      */
-    public void NotifyObserver(Calculator calculator) {
+    public static void NotifyObserver(Calculator calculator) {
         int price = calculator.getPrice();
         Buyer buyer = new Buyer();
         Seller seller = new Seller();
@@ -13,5 +13,10 @@ public class Client {
         EventHandler.addEvent(buyEvent);
         EventHandler.addEvent(sellEvent);
         EventHandler.Notify(price);
+    }
+
+    public static void main(String[] args) {
+        Calculator calculator = new Calculator(10);
+        NotifyObserver(calculator);
     }
 }
