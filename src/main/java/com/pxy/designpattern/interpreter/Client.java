@@ -11,4 +11,14 @@ public class Client {
         SimpleCalculator calculator = new SimpleCalculator(expressionMap);
         return calculator.compute(expressionStr.toCharArray());
     }
+
+    public static void main(String[] args) {
+        String expressionStr = "a+b-c";
+        int[] nums = {1,2,4};
+        try {
+            System.out.println(computeByInterpreter(expressionStr,nums));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

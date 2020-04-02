@@ -5,7 +5,7 @@ public class Client {
     /**
      * 使用命令模式组装计算器
      */
-    public void packageByCommand() throws Exception {
+    public static void packageByCommand() throws Exception {
         Invoker invoker = new Invoker();
         Calculator calculator = new Calculator();
         Command addChipCommand = new AddChipCommand(calculator);
@@ -26,5 +26,13 @@ public class Client {
         invoker.addCommand("卡东欧",addKeyboardCommand);
         invoker.addCommand("卡东欧",addShellCommand);
         invoker.executeCommands("卡东欧");
+    }
+
+    public static void main(String[] args) {
+        try {
+            packageByCommand();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -11,6 +11,7 @@ public class Invoker {
             commandList = new ArrayList<>();
         }
         commandList.add(command);
+        commandMap.put(userName,commandList);
     }
 
     public void cancelCommand(String userName,Command command) throws Exception {

@@ -14,4 +14,12 @@ public class Client {
             System.out.println(stackIterator.next());
         }
     }
+
+    public static void main(String[] args) {
+        try {
+            showByIterator();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -13,4 +13,8 @@ public class Client {
         System.out.println(calculator3.operate(new ExternalNums(3,2))); //0
         System.out.println("CalculatorFactory中的实例个数为：" + CalculatorFactory.instanceCount()); //1
     }
+
+    public static void main(String[] args) {
+        computeByFlyweight();
+    }
 }
