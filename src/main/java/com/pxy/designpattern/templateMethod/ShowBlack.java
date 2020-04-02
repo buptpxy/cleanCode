@@ -1,4 +1,4 @@
-package com.pxy.designpattern.decorator;
+package com.pxy.designpattern.templateMethod;
 
 public class ShowBlack extends ShowColor {
     @Override

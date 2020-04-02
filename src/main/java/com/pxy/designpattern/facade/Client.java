@@ -1,6 +1,9 @@
 package com.pxy.designpattern.facade;
 
 public class Client {
+    /**
+     * 不使用外观模式组装计算器
+     */
     private static void packageCalculator() {
         Chip chip = new Chip();
         Keyboard keyboard = new Keyboard();

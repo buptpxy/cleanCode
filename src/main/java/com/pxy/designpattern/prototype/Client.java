@@ -58,6 +58,12 @@ public class Client {
     }
 
     public static void main(String[] args) throws CloneNotSupportedException {
-        System.out.println(generateThreeCalculatorsByClone().size());
+        List<Calculator> calculators = generateThreeCalculatorsByClone();
+        System.out.println("第1个计算器的价格："+calculators.get(0).getPrice());
+        System.out.println("第1个计算器的品牌名："+calculators.get(0).getBrand().getName());
+        System.out.println("第2个计算器的价格："+calculators.get(1).getPrice());
+        System.out.println("第2个计算器的品牌名："+calculators.get(1).getBrand().getName());
+        System.out.println("第3个计算器的价格："+calculators.get(2).getPrice());
+        System.out.println("第3个计算器的品牌名："+calculators.get(2).getBrand().getName());
     }
 }

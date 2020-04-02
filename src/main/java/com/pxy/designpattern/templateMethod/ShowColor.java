@@ -1,4 +1,4 @@
-package com.pxy.designpattern.decorator;
+package com.pxy.designpattern.templateMethod;
 
 public abstract class ShowColor extends Calculator {
     protected Calculator calculator;
@@ -8,9 +8,11 @@ public abstract class ShowColor extends Calculator {
     @Override
     public int compute(int num1, String operator, int num2) throws Exception {
         if (calculator != null) {
+            showColor();
             return calculator.compute(num1, operator,num2);
         } else {
             throw new Exception("不能调用空对象的方法！");
         }
-    }
+    };
+    protected abstract void showColor();
 }
