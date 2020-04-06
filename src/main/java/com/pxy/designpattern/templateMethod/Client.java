@@ -3,9 +3,9 @@ package com.pxy.designpattern.templateMethod;
 public class Client {
 
     /**
-     * 给计算器计算结果的时候增加打印颜色的功能，使用装饰模式。这样无论要打印多少种颜色和按何种顺序打印，都可由参数colors指定，也不影响原来的计算功能
+     * 与装饰模式的客户端代码相同
      */
-    public static int computeByDecorator(int num1, String operator, int num2, String[] colors) throws Exception {
+    public static int computeByTemplateMethod(int num1, String operator, int num2, String[] colors) throws Exception {
         Calculator calculator = new Calculator();
         ShowColor showColor = ShowColorFactory.newShowColorInstance(colors[0]);
         showColor.setCalculator(calculator);
@@ -19,7 +19,7 @@ public class Client {
 
     public static void main(String[] args) {
         try {
-            System.out.println(computeByDecorator(2,"/",1, new String[]{"red", "blue", "yellow"}));
+            System.out.println(computeByTemplateMethod(2,"/",1, new String[]{"red", "blue", "yellow"}));
         } catch (Exception e) {
             e.printStackTrace();
         }

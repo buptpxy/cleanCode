@@ -9,7 +9,7 @@ public class ShowBlue extends ShowColor {
         } else {
             throw new Exception("不能调用空对象的方法！");
         }
-    };
+    }
     private void showBlue() {
         System.out.println("show blue!");
     }
