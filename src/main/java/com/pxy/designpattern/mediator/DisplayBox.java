@@ -8,7 +8,7 @@ public class DisplayBox extends Component {
 
     @Override
     public String sendMessage(String message) {
-        System.out.println(message);
+        System.out.println("输出框显示："+message);
         return message;
     }
 

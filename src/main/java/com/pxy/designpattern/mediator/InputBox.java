@@ -20,6 +20,7 @@ public class InputBox extends Component {
             turnOn = false;
             return message;
         }
+        System.out.print("输入框输入：");
         return scanner.next();
     }
 
