@@ -77,8 +77,8 @@ public class ListTests {
 //        但可修改原list，则unmodifiableList也会随之改变
         list.set(0,"0");
         Assert.assertEquals("0",unmodifiableList.get(0));
-        //可使用List.of()方法
-        List<String> unmodifiableListOf = List.of(list.toArray(new String[]{}));
+        //可使用List.of()方法，不能直接使用toArray无参方法，无参方法返回值只能是Object[]类，若强转其它类型数组将出现ClassCastException错误，所以要加锁new String[0]
+        List<String> unmodifiableListOf = List.of(list.toArray(new String[0]));
         list.set(1,"1");
         Assert.assertNotEquals("1",unmodifiableListOf.get(1));
         //或者直接使用 Guava immutable list
